@@ -1,0 +1,26 @@
+{
+    "name": "yiisoft/yii2-extensions",
+    "type": "composer-plugin",
+    "require": {
+        "php":"^7.0",
+        "yiisoft/yii2": "~2.0",
+        "symfony/dotenv": "^5.0",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "yii\\dingtalk\\": "dingtalk",
+            "yii\\dotenv\\": "dotenv"
+        },
+        "files": [
+            "dotenv\\confighelper.php"
+        ]
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TeoChoi",
+            "email": "cn.teochoi@gmail.com"
+        }
+    ]
+}
