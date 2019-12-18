@@ -1,5 +1,5 @@
 {
-    "name": "yiisoft/yii2-extensions123",
+    "name": "teochoi/yii2-extensions",
     "type": "composer-plugin",
     "require": {
         "php":"^7.0",
