@@ -3,7 +3,9 @@
 use Dotenv\Dotenv;
 use yii\web\Response;
 
-(new Dotenv(RDC_CONFIG_PATH, 'rdc_security_config.properties'))->load();
+if (defined('RDC_CONFIG_PATH')) {
+    (new Dotenv(RDC_CONFIG_PATH, 'rdc_security_config.properties'))->load();
+}
 
 if (!function_exists('env')) {
     /**
