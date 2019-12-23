@@ -1,6 +1,6 @@
 {
     "name": "teochoi/yii2-extensions",
-    "type": "composer-plugin",
+    "type": "library",
     "require": {
         "php":"^7.0",
         "yiisoft/yii2": "~2.0",
