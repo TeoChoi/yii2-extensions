@@ -1,10 +1,8 @@
 <?php
 
 
-namespace yii\dingtalk;
+namespace yii2\dingtalk;
 
-
-use GuzzleHttp\Client as HttpClient;
 use yii\di\Instance;
 
 class Target extends \yii\log\Target

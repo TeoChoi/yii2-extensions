@@ -4,16 +4,18 @@
     "require": {
         "php":"^7.0",
         "yiisoft/yii2": "~2.0",
-        "symfony/dotenv": "^5.0",
-        "guzzlehttp/guzzle": "^6.5"
+        "guzzlehttp/guzzle": "^6.5",
+        "vlucas/phpdotenv": "~2.2",
+        "tightenco/collect": "^6.9"
     },
     "autoload": {
         "psr-4": {
-            "yii\\dingtalk\\": "dingtalk",
-            "yii\\dotenv\\": "dotenv"
+            "yii2\\dingtalk\\": "dingtalk",
+            "yii2\\validation\\": "validation",
+            "yii2\\http\\": "http"
         },
         "files": [
-            "dotenv\\confighelper.php"
+            "helpers.php"
         ]
     },
     "license": "MIT",

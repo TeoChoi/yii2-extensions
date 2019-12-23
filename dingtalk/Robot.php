@@ -1,7 +1,7 @@
 <?php
 
 
-namespace yii\dingtalk;
+namespace yii2\dingtalk;
 
 
 use GuzzleHttp\Client;
