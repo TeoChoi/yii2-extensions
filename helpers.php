@@ -49,6 +49,13 @@ if (!function_exists('http')) {
     }
 }
 
+if (!function_exists('validator')) {
+    function validator(array $data, array $rules = [], array $message = [])
+    {
+        return new \yii2\validation\Validator($data, $rules, $message);
+    }
+}
+
 if (!function_exists('response_ok')) {
     /**
      * @param $message
