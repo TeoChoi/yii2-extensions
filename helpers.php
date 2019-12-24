@@ -104,3 +104,14 @@ if (!function_exists('device')) {
         return new \Detection\MobileDetect();
     }
 }
+
+if (!function_exists('request')) {
+
+    /**
+     * @return \yii\console\Request|\yii\web\Request
+     */
+    function request()
+    {
+        return Yii::$app->request;
+    }
+}
