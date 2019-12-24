@@ -95,3 +95,12 @@ if (!function_exists('response_send')) {
         return $response;
     }
 }
+
+if (!function_exists('device')) {
+    /**
+     * @return \Detection\MobileDetect
+     */
+    function device() {
+        return new \Detection\MobileDetect();
+    }
+}
