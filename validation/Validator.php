@@ -81,7 +81,7 @@ class Validator
     }
 
     /**
-     * @return bool
+     * @return $this
      */
     public function validate()
     {
@@ -90,19 +90,19 @@ class Validator
                 $value = $this->getField($field);
                 foreach ($rules as $rule => $parameters) {
                     if (!$this->runValidateRule($rule, $field, $value, $parameters)) {
-                        $this->messages[$field][] = $this->buildMessage($rule, $field, $parameters);
+                        $this->messages[] = $this->buildMessage($rule, $field, $parameters);
                     }
                 }
             } elseif ($forceRules = array_intersect(self::$forceRules, array_keys($rules))) {
                 foreach ($forceRules as $rule) {
                     if (!$this->runValidateRule($rule, $field, null, $rules[$rule])) {
-                        $this->messages[$field][] = $this->buildMessage($rule, $field, $rules[$rule]);
+                        $this->messages[] = $this->buildMessage($rule, $field, $rules[$rule]);
                     }
                 }
             }
         }
 
-        return 0 === count($this->messages);
+        return $this;
     }
 
     /**
@@ -110,15 +110,15 @@ class Validator
      */
     public function fails()
     {
-        return array_keys($this->messages);
+        return count($this->messages) != 0;
     }
 
     /**
-     * @return array
+     * @return \Tightenco\Collect\Support\Collection
      */
     public function messages()
     {
-        return $this->messages;
+        return collect($this->messages);
     }
 
     /**
