@@ -4,6 +4,7 @@
 namespace yii2\dingtalk;
 
 use yii\di\Instance;
+use yii\helpers\VarDumper;
 
 class Target extends \yii\log\Target
 {
@@ -44,5 +45,28 @@ class Target extends \yii\log\Target
         $body = implode(PHP_EOL, $messages);
         $body = sprintf("【%s】报警 \n %s", $this->id, $body);
         $this->robot->setText($body)->sendText();
+    }
+
+    /**
+     * @param array $message
+     * @return string
+     */
+    public function formatMessage($message)
+    {
+        list($text, $level, $category, $timestamp) = $message;
+
+        if (is_string($text) && mb_strlen($text) > 200) {
+            // exceptions may not be serializable if in the call stack somewhere is a Closure
+            return '';
+        }
+
+        if ($text instanceof \Throwable || $text instanceof \Exception) {
+            $text = (string)$text;
+        } else {
+            $text = VarDumper::export($text);
+        }
+
+        $prefix = $this->getMessagePrefix($message);
+        return $this->getTime($timestamp) . " {$prefix}[$level][$category] $text";
     }
 }
