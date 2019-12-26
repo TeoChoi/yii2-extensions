@@ -106,7 +106,7 @@ class Validator
     }
 
     /**
-     * @return array
+     * @return bool
      */
     public function fails()
     {
