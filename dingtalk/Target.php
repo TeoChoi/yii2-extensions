@@ -66,6 +66,21 @@ class Target extends \yii\log\Target
             $text = VarDumper::export($text);
         }
 
+        $text = implode(PHP_EOL, [
+            $text,
+            VarDumper::export([
+                '$_GET' => $_GET,
+                '$_POST' => $_POST,
+                '$_SERVER' => [
+                    'HTTP_USER_AGENT' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+                    'HTTP_HOST' => $_SERVER['HTTP_HOST'] ?? '',
+                    'HTTP_X_ORIGINAL_URI' => $_SERVER['HTTP_X_ORIGINAL_URI'] ?? '',
+                    'REQUEST_URI' => $_SERVER['REQUEST_URI'] ?? '',
+                    'REQUEST_METHOD' => $_SERVER['REQUEST_METHOD'] ?? '',
+                ]
+            ])
+        ]);
+
         $prefix = $this->getMessagePrefix($message);
         return $this->getTime($timestamp) . " {$prefix}[$level][$category] $text";
     }
