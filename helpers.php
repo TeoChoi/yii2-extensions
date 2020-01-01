@@ -42,6 +42,14 @@ if (!function_exists('env')) {
     }
 }
 
+if (!function_exists('config'))
+{
+    function config($key=null, $default=null)
+    {
+        return \Tightenco\Collect\Support\Arr::get(Yii::$app->params, $key, $default);
+    }
+}
+
 if (!function_exists('http')) {
     function http($baseUri)
     {

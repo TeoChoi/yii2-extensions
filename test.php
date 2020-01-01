@@ -20,12 +20,21 @@ $app = new \yii\console\Application([
             'token' => $token,
             'secret' => $secret
         ]
+    ],
+    'params' => [
+        'ha' => 'aa',
+        'cc' => [
+            'dd' => '123'
+        ]
     ]
 ]);
+dd(config('cc.dd'));
 
-$target = Yii::createObject([
-    'class' => \yii\dingtalk\Target::class,
-    'robot' => 'robot'
-]);
 
-var_dump($target->export());
+
+//$target = Yii::createObject([
+//    'class' => \yii\dingtalk\Target::class,
+//    'robot' => 'robot'
+//]);
+//
+//var_dump($target->export());

@@ -10,14 +10,18 @@ require 'vendor/yiisoft/yii2/Yii.php';
 //$r = http($baseUri)->post('/property/list');
 //dd($r);
 
-//$data = [
-//    'blog' => 'github.com/RunnerLee',
-//];
-//$rule = [
-//    'blog' => 'required|url',
-//];
-//$validator = new \yii2\validation\Validator($data, $rule, ['Url' => '1231:attribute']);
-//
-//dd($validator->validate(), $validator->fails(), collect($validator->messages())->first());
+$data = [
+    'blog' => 'github.com/RunnerLee',
+];
+$rule = [
+    'blog' => 'required|url',
+];
+$validator = validator($data, $rule);
+
+dd($validator->validate(), $validator->fails(), collect($validator->messages())->first());
 echo env('aa');
 //response_ok('你好');
+
+$device = new \Detection\MobileDetect();
+
+var_dump($device->isMobile());
