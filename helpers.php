@@ -1,6 +1,7 @@
 <?php
 
 use Dotenv\Dotenv;
+use Monolog\Handler\StreamHandler;
 use yii\web\Response;
 
 if (defined('RDC_CONFIG_PATH')) {
@@ -42,9 +43,8 @@ if (!function_exists('env')) {
     }
 }
 
-if (!function_exists('config'))
-{
-    function config($key=null, $default=null)
+if (!function_exists('config')) {
+    function config($key = null, $default = null)
     {
         return \Tightenco\Collect\Support\Arr::get(Yii::$app->params, $key, $default);
     }
@@ -115,7 +115,8 @@ if (!function_exists('device')) {
     /**
      * @return \Detection\MobileDetect
      */
-    function device() {
+    function device()
+    {
         return new \Detection\MobileDetect();
     }
 }
@@ -128,5 +129,34 @@ if (!function_exists('request')) {
     function request()
     {
         return Yii::$app->request;
+    }
+}
+
+if (!function_exists('logger')) {
+    /**
+     * @param null $message
+     * @param array $context
+     * @return \Monolog\Logger
+     * @throws \yii\base\InvalidConfigException
+     */
+    function logger($message = null, array $context =[])
+    {
+        $key = 'logger';
+
+        if (Yii::$app->has($key) == false) {
+            $logger = new \Monolog\Logger('application');
+            $handler = new StreamHandler(\Yii::$app->runtimePath . '/logs/app-' . date('Y-m-d') . '.log');
+            $logger = $logger->pushHandler($handler);
+            Yii::$app->set($key, $logger);
+        }
+
+        /* @var $logger \Monolog\Logger*/
+        $logger = Yii::$app->get($key);
+
+        if ($message != null) {
+            $logger->info($message, $context);
+        }
+
+        return $logger;
     }
 }
