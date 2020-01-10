@@ -12,7 +12,8 @@ class HttpClient
     public function __construct($baseUri)
     {
         $this->client = new Client([
-            'base_uri' => $baseUri
+            'base_uri' => $baseUri,
+            'timeout' => 5
         ]);
     }
 
