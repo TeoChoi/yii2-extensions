@@ -3,13 +3,13 @@
 
 namespace yii2\dingtalk;
 
+use yii\base\InvalidRouteException;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
 class Target extends \yii\log\Target
 {
-    public $id;
-
     /**
      * @var Robot
      */
@@ -17,6 +17,18 @@ class Target extends \yii\log\Target
 
     public $token;
     public $secret;
+
+    public $logVars = [
+        '_COOKIE',
+        '_GET',
+        '_POST',
+        '_FILES',
+        '_SERVER.REQUEST_METHOD',
+        '_SERVER.REQUEST_URI',
+        '_SERVER.HTTP_USER_AGENT',
+        '_SERVER.HTTP_HOST',
+        '_SERVER.HTTP_X_ORIGINAL_URI',
+    ];
 
     public function init()
     {
@@ -42,46 +54,12 @@ class Target extends \yii\log\Target
     {
         $messages = array_map([$this, 'formatMessage'], $this->messages);
 
-        $body = implode(PHP_EOL, $messages);
-        $body = sprintf("【%s】报警 \n %s", $this->id, $body);
-        $this->robot->setText($body)->sendText();
-    }
+        $title = "【". env('APP_ENV'). "】" . \Yii::$app->id;
 
-    /**
-     * @param array $message
-     * @return string
-     */
-    public function formatMessage($message)
-    {
-        list($text, $level, $category, $timestamp) = $message;
+        $body = implode(PHP_EOL . '>', explode(PHP_EOL, implode(PHP_EOL, $messages)));
 
-        if (is_string($text) && mb_strlen($text) > 200) {
-            // exceptions may not be serializable if in the call stack somewhere is a Closure
-            return '';
-        }
+        $body = sprintf("#### %s \r\n > %s", $title, $body);
 
-        if ($text instanceof \Throwable || $text instanceof \Exception) {
-            $text = (string)$text;
-        } else {
-            $text = VarDumper::export($text);
-        }
-
-        $text = implode(PHP_EOL, [
-            $text,
-            VarDumper::export([
-                '$_GET' => $_GET,
-                '$_POST' => $_POST,
-                '$_SERVER' => [
-                    'HTTP_USER_AGENT' => $_SERVER['HTTP_USER_AGENT'] ?? '',
-                    'HTTP_HOST' => $_SERVER['HTTP_HOST'] ?? '',
-                    'HTTP_X_ORIGINAL_URI' => $_SERVER['HTTP_X_ORIGINAL_URI'] ?? '',
-                    'REQUEST_URI' => $_SERVER['REQUEST_URI'] ?? '',
-                    'REQUEST_METHOD' => $_SERVER['REQUEST_METHOD'] ?? '',
-                ]
-            ])
-        ]);
-
-        $prefix = $this->getMessagePrefix($message);
-        return $this->getTime($timestamp) . " {$prefix}[$level][$category] $text";
+        $this->robot->setTitle($title)->setText($body)->sendMarkdown();
     }
 }

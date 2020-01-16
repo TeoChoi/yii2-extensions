@@ -9,10 +9,12 @@ class HttpClient
 {
     private $client = null;
 
+    private $baseUri = null;
+
     public function __construct($baseUri)
     {
         $this->client = new Client([
-            'base_uri' => $baseUri,
+            'base_uri' => $this->baseUri = $baseUri,
             'timeout' => 5
         ]);
     }
@@ -35,7 +37,7 @@ class HttpClient
 
             return Json::decode($content);
         } catch (\Exception $exception) {
-
+            \Yii::error(implode('|', [$this->baseUri, $url, $data, $exception->getMessage()]));
         }
         return false;
     }
