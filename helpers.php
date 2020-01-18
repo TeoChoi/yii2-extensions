@@ -143,7 +143,7 @@ if (!function_exists('logger')) {
         $key = 'logger';
 
         try {
-            if (Yii::$app->has($key) == false) {
+            if (Yii::$app->has($key) != false) {
                 /* @var $logger \Monolog\Logger*/
                 $logger = Yii::$app->get($key, false);
             } else {
