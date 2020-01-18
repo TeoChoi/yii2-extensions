@@ -136,27 +136,60 @@ if (!function_exists('logger')) {
     /**
      * @param null $message
      * @param array $context
-     * @return \Monolog\Logger
-     * @throws \yii\base\InvalidConfigException
+     * @return \Monolog\Logger|void
      */
     function logger($message = null, array $context =[])
     {
         $key = 'logger';
 
-        if (Yii::$app->has($key) == false) {
-            $logger = new \Monolog\Logger('application');
-            $handler = new StreamHandler(\Yii::$app->runtimePath . '/logs/app-' . date('Y-m-d') . '.log');
-            $logger = $logger->pushHandler($handler);
-            Yii::$app->set($key, $logger);
+        try {
+            if (Yii::$app->has($key) == false) {
+                /* @var $logger \Monolog\Logger*/
+                $logger = Yii::$app->get($key, false);
+            } else {
+                $logger = new \Monolog\Logger('application');
+                $handler = new StreamHandler(\Yii::$app->runtimePath . '/logs/app-' . date('Y-m-d') . '.log');
+                $logger = $logger->pushHandler($handler);
+                Yii::$app->set($key, $logger);
+            }
+
+            if ($message != null) {
+                $logger->info($message, $context);
+            }
+
+            return $logger;
+        } catch (Exception $exception) {
+            Yii::error($exception->getMessage());
         }
+    }
+}
 
-        /* @var $logger \Monolog\Logger*/
-        $logger = Yii::$app->get($key);
-
-        if ($message != null) {
-            $logger->info($message, $context);
+if (!function_exists('redis')) {
+    /**
+     * @param string $id
+     * @return \yii\redis\Connection|null
+     * @throws
+     */
+    function redis($id='redis') {
+        $connect = Yii::$app->get($id, false);
+        if ($connect instanceof \yii\redis\Connection) {
+            return $connect;
         }
+        return null;
+    }
+}
 
-        return $logger;
+if (!function_exists('db')) {
+    /**
+     * @param string $id
+     * @return \yii\db\Connection|null
+     * @throws
+     */
+    function db($id='db') {
+        $connect = Yii::$app->get($id, false);
+        if ($connect instanceof \yii\db\Connection) {
+            return $connect;
+        }
+        return null;
     }
 }

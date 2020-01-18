@@ -1,9 +1,4 @@
 <?php
-/**
- * @author: RunnerLee
- * @email: runnerleer@gmail.com
- * @time: 17-2-20 15:22
- */
 
 namespace yii2\validation;
 

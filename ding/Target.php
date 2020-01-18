@@ -1,7 +1,7 @@
 <?php
 
 
-namespace yii2\dingtalk;
+namespace yii2\ding;
 
 use yii\base\InvalidRouteException;
 use yii\di\Instance;
