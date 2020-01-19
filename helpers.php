@@ -5,7 +5,7 @@ use Monolog\Handler\StreamHandler;
 use yii\web\Response;
 
 if (defined('RDC_CONFIG_PATH')) {
-    (new Dotenv(RDC_CONFIG_PATH, 'rdc_security_config.properties'))->load();
+    (new Dotenv(RDC_CONFIG_PATH))->load();
 }
 
 if (!function_exists('env')) {
