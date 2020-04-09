@@ -26,7 +26,8 @@ class LoggerAction extends Behavior
      */
     public function beforeAction($event)
     {
-        $this->msg['input'] = [$_SERVER["REQUEST_URI"], request()->post()];
+        $this->msg['cookie'] = $_COOKIE;
+        $this->msg['input'] = request()->post();
         return true;
     }
 
