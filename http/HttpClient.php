@@ -27,6 +27,8 @@ class HttpClient
      */
     public function post($url, $data = [], $headers = [])
     {
+        $uId = uniqid();
+        logger("$uId 请求开始:", collect($data)->push($url)->toArray());
         try {
             $response = $this->client->post($url, [
                 'headers' => $headers,
@@ -35,7 +37,11 @@ class HttpClient
 
             $content = $response->getBody()->getContents();
 
-            return Json::decode($content);
+            $result = Json::decode($content);
+
+            logger("$uId 请求结果:", (array)$result);
+
+            return $result;
         } catch (\Exception $exception) {
             \Yii::error(implode('|', [$this->baseUri, $url, $data, $exception->getMessage()]));
         }
