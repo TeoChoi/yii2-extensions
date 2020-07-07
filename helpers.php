@@ -98,14 +98,27 @@ if (!function_exists('response_send')) {
      */
     function response_send($code, $message, $data = null)
     {
-        $response = \Yii::$app->getResponse();
-        $response->format = Response::FORMAT_JSON;
-
-        $response->data = [
+        return response_json([
             'code' => $code,
             'message' => $message,
             'data' => $data
-        ];
+        ]);
+    }
+}
+
+if (!function_exists('response_json')) {
+    /**
+     * @param $code
+     * @param $message
+     * @param null $data
+     * @return \yii\console\Response|Response
+     */
+    function response_json($anyData)
+    {
+        $response = \Yii::$app->getResponse();
+        $response->format = Response::FORMAT_JSON;
+
+        $response->data = $anyData;
 
         return $response;
     }
