@@ -32,7 +32,8 @@ class HttpClient
         try {
             $response = $this->client->post($url, [
                 'headers' => $headers,
-                'form_params' => $data
+                'form_params' => $data,
+                'json' => $data
             ]);
 
             $content = $response->getBody()->getContents();
@@ -43,7 +44,7 @@ class HttpClient
 
             return $result;
         } catch (\Exception $exception) {
-            \Yii::error(implode('|', [$this->baseUri, $url, $data, $exception->getMessage()]));
+            \Yii::error($exception->getMessage());
         }
         return false;
     }
