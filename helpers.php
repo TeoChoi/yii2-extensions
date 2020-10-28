@@ -51,9 +51,9 @@ if (!function_exists('config')) {
 }
 
 if (!function_exists('http')) {
-    function http($baseUri)
+    function http($baseUri, $options = [])
     {
-        return new \yii2\http\HttpClient($baseUri);
+        return new \yii2\http\HttpClient($baseUri, $options);
     }
 }
 
