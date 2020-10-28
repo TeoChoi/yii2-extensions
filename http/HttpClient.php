@@ -11,12 +11,10 @@ class HttpClient
 
     private $baseUri = null;
 
-    public function __construct($baseUri)
+    public function __construct($baseUri, $options = [])
     {
-        $this->client = new Client([
-            'base_uri' => $this->baseUri = $baseUri,
-            'timeout' => 5
-        ]);
+        $options['base_uri'] = $this->baseUri = $baseUri;
+        $this->client = new Client($options);
     }
 
     /**
