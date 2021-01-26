@@ -28,11 +28,21 @@ class HttpClient
         $uId = uniqid();
         logger("$uId 请求开始:", collect($data)->push($url)->toArray());
         try {
-            $response = $this->client->post($url, [
-                'headers' => $headers,
-                'form_params' => $data,
-                'json' => $data
-            ]);
+            $params = ['headers' => $headers];
+
+            switch ($headers['Content-Type']) {
+                case "application/x-www-form-urlencoded":
+                    $params['form_params'] = $data;
+                    break;
+                case "multipart/form-data":
+                    $params['multipart'] = $data;
+                    break;
+                default :
+                    $params['json'] = $data;
+                    break;
+            }
+
+            $response = $this->client->post($url, $params);
 
             $content = $response->getBody()->getContents();
 
@@ -56,7 +66,7 @@ class HttpClient
     public function get($url, $data = [], $headers = [])
     {
         try {
-            $response = $this->client->post($url, [
+            $response = $this->client->get($url, [
                 'headers' => $headers,
                 'query' => $data
             ]);
