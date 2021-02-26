@@ -27,6 +27,7 @@ class LoggerAction extends Behavior
     public function beforeAction($event)
     {
         $this->msg['cookie'] = $_COOKIE;
+        $this->msg['headers'] = request()->headers->toArray();
         $this->msg['input'] = request()->post();
         return true;
     }
@@ -38,11 +39,11 @@ class LoggerAction extends Behavior
     public function afterAction($event)
     {
         try {
-            $this->msg['output'] = $event->result->data;
+            $this->msg['output'] = is_string($event->result) ? $event->result : $event->result->data;
             $actionId = implode('.', [$event->action->controller->id, $event->action->id]);
             logger("{$actionId}: ", $this->msg);
         } catch (\Exception $exception) {
-
+            \Yii::error($exception->getMessage());
         }
         return true;
     }
