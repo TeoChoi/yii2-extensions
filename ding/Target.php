@@ -54,7 +54,7 @@ class Target extends \yii\log\Target
     {
         $messages = array_map([$this, 'formatMessage'], $this->messages);
 
-        $title = "【". env('APP_ENV'). "】" . \Yii::$app->id;
+        $title = "【". env('app.env'). "】" . \Yii::$app->id;
 
         $body = implode(PHP_EOL . '>', explode(PHP_EOL, implode(PHP_EOL, $messages)));
 
