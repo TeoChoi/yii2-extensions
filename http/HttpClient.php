@@ -30,7 +30,7 @@ class HttpClient
         try {
             $params = ['headers' => $headers];
 
-            switch ($headers['Content-Type']) {
+            switch (data_get($headers, 'Content-Type')) {
                 case "application/x-www-form-urlencoded":
                     $params['form_params'] = $data;
                     break;
