@@ -1,7 +1,7 @@
 <?php
 
 
-namespace common\components;
+namespace yii2\traits;
 
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
