@@ -3,6 +3,7 @@
 use Dotenv\Dotenv;
 use Monolog\Handler\StreamHandler;
 use yii\web\Response;
+use yii2\ding\Robot;
 
 if (defined('RDC_CONFIG_PATH')) {
     (new Dotenv(RDC_CONFIG_PATH))->load();
@@ -174,6 +175,35 @@ if (!function_exists('logger')) {
         } catch (Exception $exception) {
             Yii::error($exception->getMessage());
         }
+    }
+}
+
+if (!function_exists('logger_exception')) {
+    function logger_exception($message, \Exception $exception)
+    {
+        logger()->error($message, [
+            'code' => $exception->getCode(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'message' => $exception->getMessage(),
+        ]);
+    }
+}
+
+if (!function_exists('ding')) {
+
+    /**
+     * @param $dingName
+     * @return Robot
+     * @throws \yii\base\InvalidConfigException
+     */
+    function ding($dingName)
+    {
+        $component = Yii::$app->get($dingName, false);
+        if ($component instanceof Robot) {
+            return $component;
+        }
+        return null;
     }
 }
 
