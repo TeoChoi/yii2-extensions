@@ -182,6 +182,8 @@ if (!function_exists('logger_exception')) {
     function logger_exception($message, \Exception $exception)
     {
         logger()->error($message, [
+            'post' => request()->post(),
+            'get' => request()->get(),
             'code' => $exception->getCode(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
