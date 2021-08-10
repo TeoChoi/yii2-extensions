@@ -25,5 +25,11 @@
             "name": "TeoChoi",
             "email": "cn.teochoi@gmail.com"
         }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
     ]
 }
